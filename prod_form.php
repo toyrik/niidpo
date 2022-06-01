@@ -14,18 +14,23 @@ if (!empty($_GET['action']) && $_GET['action'] == 'get_prod_price') {
         $url = explode('?', $url);
         $url = $url[0];
         $data = [
-            'action' => 'curl'
+            'action' => 'curl',
+            'row' => json_encode($row)
         ];	
 
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data, JSON_UNESCAPED_UNICODE)); 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
         $res = curl_exec($ch);
+
+        if(curl_errno($ch)){
+            echo 'Curl error: ' . curl_error($ch);
+        }
+
         curl_close($ch);
         echo $res;
        
@@ -36,7 +41,8 @@ if (!empty($_GET['action']) && $_GET['action'] == 'get_prod_price') {
 
 //Получить строку товара в json, к цене товара применить скидку 1,5% и вернуть строку товара обратно в json
 if (!empty($_POST['action']) && $_POST['action'] == 'curl') {
-    echo 12;
+    header('Content-Type: application/json; charset=utf-8');
+    echo '{}';
 	exit;
 }
 //Карточка товара
