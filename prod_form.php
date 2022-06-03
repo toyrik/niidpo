@@ -1,5 +1,4 @@
 ﻿<?php
-require 'debug.php';
 require 'db.php';
 
 //Получение цены через ajax jQuery
@@ -21,7 +20,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'get_prod_price') {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data, JSON_UNESCAPED_UNICODE)); 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -42,7 +41,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'get_prod_price') {
 //Получить строку товара в json, к цене товара применить скидку 1,5% и вернуть строку товара обратно в json
 if (!empty($_POST['action']) && $_POST['action'] == 'curl') {
     header('Content-Type: application/json; charset=utf-8');
-    echo '{}';
+    print '{}';
 	exit;
 }
 //Карточка товара
